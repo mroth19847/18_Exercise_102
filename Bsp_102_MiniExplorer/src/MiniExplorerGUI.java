@@ -1,10 +1,11 @@
 public class MiniExplorerGUI extends javax.swing.JFrame {
 
-    private String currentDir = "D:\\Projekte\\Git_Projekt\\Bsp_102_MiniExplorer";
+    private String currentDir = ".";
     private DataModel model = new DataModel();
     
     public MiniExplorerGUI() {
         initComponents();
+        FileList.setCellRenderer(new CellRenderer());
         FileList.setModel(model);
         model.openDir(currentDir);
     }
@@ -17,12 +18,8 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         FileList = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MiniExplorer");
 
-        FileList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(FileList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -37,6 +34,7 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -75,7 +73,7 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> FileList;
+    private javax.swing.JList<Data> FileList;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

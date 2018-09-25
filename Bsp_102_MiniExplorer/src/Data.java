@@ -2,7 +2,7 @@
 import java.io.File;
 
 public class Data extends File{
-    
+
     public Data(String pathname) {
         super(pathname);
     }
@@ -12,7 +12,7 @@ public class Data extends File{
         if(this.isDirectory()){
             return this.getName();
         } else {
-            return String.format("test.txt");
+            return String.format("%s",this.getName());
         }
     }
     

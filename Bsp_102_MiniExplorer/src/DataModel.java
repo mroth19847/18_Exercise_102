@@ -5,7 +5,7 @@ import javax.swing.AbstractListModel;
 
 public class DataModel extends AbstractListModel {
 
-    private ArrayList<File> files = new ArrayList<>();
+    private ArrayList<Data> files = new ArrayList<>();
 
     @Override
     public int getSize() {
@@ -20,7 +20,7 @@ public class DataModel extends AbstractListModel {
     public void openDir(String path) {
         File dir = new File(path);
         for (File f : dir.listFiles()) {
-            files.add((Data) f);
+            files.add(new Data(f.getAbsolutePath()));
         }
         fireContentsChanged(this, 0, files.size()-1);
     }
