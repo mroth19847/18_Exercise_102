@@ -11,6 +11,12 @@ public class Data extends File{
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+    
+
+    @Override
     public String toString() {
         if(this.isDirectory()){
             return name;

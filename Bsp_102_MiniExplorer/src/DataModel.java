@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.AbstractListModel;
 
-public class DataModel extends AbstractListModel {
+public class DataModel extends AbstractListModel<Data> {
 
     private ArrayList<Data> files = new ArrayList<>();
 
@@ -14,21 +14,22 @@ public class DataModel extends AbstractListModel {
     }
 
     @Override
-    public Object getElementAt(int index) {
+    public Data getElementAt(int index) {
         return files.get(index);
     }
 
     public void openDir(String path) {
+        files.clear();
         File dir = new File(path);
         files.add(new Data(path,".."));
         for (File f : dir.listFiles()) {
             files.add(new Data(f.getAbsolutePath(),f.getName()));
         }
-        sortFiles();
         fireContentsChanged(this, 0, files.size()-1);
     }
     
     public void sortFiles(){
         Collections.sort(files,new FileComparer());
+        fireContentsChanged(this, 0, files.size()-1);
     }
 }

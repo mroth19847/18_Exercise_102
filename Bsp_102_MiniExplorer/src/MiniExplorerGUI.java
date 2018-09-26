@@ -1,13 +1,16 @@
+
+import javax.swing.JOptionPane;
+
 public class MiniExplorerGUI extends javax.swing.JFrame {
 
-    private String currentDir = ".";
     private DataModel model = new DataModel();
-    
+
     public MiniExplorerGUI() {
         initComponents();
         FileList.setCellRenderer(new CellRenderer());
         FileList.setModel(model);
-        model.openDir(currentDir);
+        model.openDir("D:\\Projekte\\Git_Projekt\\Bsp_102_MiniExplorer");
+        model.sortFiles();
     }
 
     @SuppressWarnings("unchecked")
@@ -20,6 +23,11 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MiniExplorer");
 
+        FileList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                FileListMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(FileList);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -36,6 +44,28 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void FileListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FileListMouseClicked
+        try {
+            int sel = FileList.getSelectedIndex();
+            if (sel > -1) {
+                Data d = model.getElementAt(sel);
+                if (sel == 0) {
+                    String[] helpStr = d.getAbsolutePath().replace("\\", ";").split(";");
+                    String newPath = d.getAbsolutePath().replace(helpStr[helpStr.length - 1], "");
+                    model.openDir(newPath);
+                    model.sortFiles();
+                } else {
+                    model.openDir(d.getParent() + "\\" + d.getName() + "\\");
+                    model.sortFiles();
+                }
+            }
+        } catch (NullPointerException npe) {
+            JOptionPane.showMessageDialog(null, "Please do not open Files in this explorer!");
+            FileList.setCellRenderer(new CellRenderer());
+        }
+
+    }//GEN-LAST:event_FileListMouseClicked
 
     /**
      * @param args the command line arguments
