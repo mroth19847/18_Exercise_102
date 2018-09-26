@@ -20,8 +20,9 @@ public class DataModel extends AbstractListModel {
 
     public void openDir(String path) {
         File dir = new File(path);
+        files.add(new Data(path,".."));
         for (File f : dir.listFiles()) {
-            files.add(new Data(f.getAbsolutePath()));
+            files.add(new Data(f.getAbsolutePath(),f.getName()));
         }
         sortFiles();
         fireContentsChanged(this, 0, files.size()-1);
