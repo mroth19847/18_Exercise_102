@@ -1,6 +1,7 @@
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.swing.AbstractListModel;
 
 public class DataModel extends AbstractListModel {
@@ -22,6 +23,11 @@ public class DataModel extends AbstractListModel {
         for (File f : dir.listFiles()) {
             files.add(new Data(f.getAbsolutePath()));
         }
+        sortFiles();
         fireContentsChanged(this, 0, files.size()-1);
+    }
+    
+    public void sortFiles(){
+        Collections.sort(files,new FileComparer());
     }
 }
