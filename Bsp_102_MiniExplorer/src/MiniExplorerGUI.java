@@ -4,25 +4,74 @@ import javax.swing.JOptionPane;
 public class MiniExplorerGUI extends javax.swing.JFrame {
 
     private DataModel model = new DataModel();
+    public static boolean sortedByKB;
+    public static boolean asc;
 
     public MiniExplorerGUI() {
         initComponents();
         FileList.setCellRenderer(new CellRenderer());
         FileList.setModel(model);
         model.openDir(".");
-        model.sortFiles();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        ContextMenu = new javax.swing.JPopupMenu();
+        jMenu1 = new javax.swing.JMenu();
+        sortASC = new javax.swing.JMenuItem();
+        sortDESC = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        sortASC2 = new javax.swing.JMenuItem();
+        sortDESC2 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         FileList = new javax.swing.JList<>();
+
+        jMenu1.setText("Sortieren nach Filegröße");
+
+        sortASC.setText("Aufsteigend");
+        sortASC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortASCActionPerformed(evt);
+            }
+        });
+        jMenu1.add(sortASC);
+
+        sortDESC.setText("Absteigend");
+        sortDESC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortDESCActionPerformed(evt);
+            }
+        });
+        jMenu1.add(sortDESC);
+
+        ContextMenu.add(jMenu1);
+
+        jMenu2.setText("Sortieren nach Alphabet");
+
+        sortASC2.setText("Aufsteigend");
+        sortASC2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortASC2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(sortASC2);
+
+        sortDESC2.setText("Absteigend");
+        sortDESC2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sortDESC2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(sortDESC2);
+
+        ContextMenu.add(jMenu2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MiniExplorer");
 
+        FileList.setComponentPopupMenu(ContextMenu);
         FileList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 FileListMouseClicked(evt);
@@ -55,18 +104,39 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
                         String[] helpStr = d.getAbsolutePath().replace("\\", ";").split(";");
                         String newPath = d.getAbsolutePath().replace(helpStr[helpStr.length - 1], "");
                         model.openDir(newPath);
-                        model.sortFiles();
                     } else {
                         model.openDir(d.getParent() + "\\" + d.getName() + "\\");
-                        model.sortFiles();
                     }
                 }
             } catch (NullPointerException npe) {
-                JOptionPane.showMessageDialog(null, "Please do not open Files in this explorer!");
-                FileList.setCellRenderer(new CellRenderer());
+                JOptionPane.showMessageDialog(null, "You cannot open files in this explorer");
             }
         }
     }//GEN-LAST:event_FileListMouseClicked
+
+    private void sortASCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortASCActionPerformed
+        sortedByKB = true;
+        asc = true;
+        model.advancedSorting();
+    }//GEN-LAST:event_sortASCActionPerformed
+
+    private void sortDESCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortDESCActionPerformed
+        sortedByKB = true;
+        asc = false;
+        model.advancedSorting();
+    }//GEN-LAST:event_sortDESCActionPerformed
+
+    private void sortASC2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortASC2ActionPerformed
+        sortedByKB = false;
+        asc = true;
+        model.advancedSorting();
+    }//GEN-LAST:event_sortASC2ActionPerformed
+
+    private void sortDESC2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortDESC2ActionPerformed
+        sortedByKB = false;
+        asc = false;
+        model.advancedSorting();
+    }//GEN-LAST:event_sortDESC2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -104,7 +174,14 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPopupMenu ContextMenu;
     private javax.swing.JList<Data> FileList;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JMenuItem sortASC;
+    private javax.swing.JMenuItem sortASC2;
+    private javax.swing.JMenuItem sortDESC;
+    private javax.swing.JMenuItem sortDESC2;
     // End of variables declaration//GEN-END:variables
 }

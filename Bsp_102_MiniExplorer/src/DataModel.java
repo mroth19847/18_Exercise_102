@@ -25,11 +25,16 @@ public class DataModel extends AbstractListModel<Data> {
         for (File f : dir.listFiles()) {
             files.add(new Data(f.getAbsolutePath(),f.getName()));
         }
+        sortFiles();
         fireContentsChanged(this, 0, files.size()-1);
     }
     
     public void sortFiles(){
         Collections.sort(files,new FileComparer());
+    }
+    
+    public void advancedSorting(){
+        Collections.sort(files,new AdvancedSorting());
         fireContentsChanged(this, 0, files.size()-1);
     }
 }
