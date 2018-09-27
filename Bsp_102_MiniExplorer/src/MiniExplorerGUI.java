@@ -9,7 +9,7 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         initComponents();
         FileList.setCellRenderer(new CellRenderer());
         FileList.setModel(model);
-        model.openDir("D:\\Projekte\\Git_Projekt\\Bsp_102_MiniExplorer");
+        model.openDir(".");
         model.sortFiles();
     }
 
@@ -46,25 +46,26 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void FileListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FileListMouseClicked
-        try {
-            int sel = FileList.getSelectedIndex();
-            if (sel > -1) {
-                Data d = model.getElementAt(sel);
-                if (sel == 0) {
-                    String[] helpStr = d.getAbsolutePath().replace("\\", ";").split(";");
-                    String newPath = d.getAbsolutePath().replace(helpStr[helpStr.length - 1], "");
-                    model.openDir(newPath);
-                    model.sortFiles();
-                } else {
-                    model.openDir(d.getParent() + "\\" + d.getName() + "\\");
-                    model.sortFiles();
+        if (evt.getClickCount() >= 2) {
+            try {
+                int sel = FileList.getSelectedIndex();
+                if (sel > -1) {
+                    Data d = model.getElementAt(sel);
+                    if (sel == 0) {
+                        String[] helpStr = d.getAbsolutePath().replace("\\", ";").split(";");
+                        String newPath = d.getAbsolutePath().replace(helpStr[helpStr.length - 1], "");
+                        model.openDir(newPath);
+                        model.sortFiles();
+                    } else {
+                        model.openDir(d.getParent() + "\\" + d.getName() + "\\");
+                        model.sortFiles();
+                    }
                 }
+            } catch (NullPointerException npe) {
+                JOptionPane.showMessageDialog(null, "Please do not open Files in this explorer!");
+                FileList.setCellRenderer(new CellRenderer());
             }
-        } catch (NullPointerException npe) {
-            JOptionPane.showMessageDialog(null, "Please do not open Files in this explorer!");
-            FileList.setCellRenderer(new CellRenderer());
         }
-
     }//GEN-LAST:event_FileListMouseClicked
 
     /**
