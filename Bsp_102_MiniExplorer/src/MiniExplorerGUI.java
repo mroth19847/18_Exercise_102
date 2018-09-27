@@ -27,6 +27,9 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         sortDESC2 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         FileList = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tainf = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
 
         jMenu1.setText("Sortieren nach Filegröße");
 
@@ -71,6 +74,7 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MiniExplorer");
 
+        FileList.setBorder(javax.swing.BorderFactory.createTitledBorder("Explorer"));
         FileList.setComponentPopupMenu(ContextMenu);
         FileList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -79,15 +83,34 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(FileList);
 
+        tainf.setColumns(20);
+        tainf.setRows(5);
+        jScrollPane2.setViewportView(tainf);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Information");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 548, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(6, 6, 6))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(4, 4, 4)
+                .addComponent(jScrollPane2)
+                .addContainerGap())
         );
 
         pack();
@@ -110,6 +133,11 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
                 }
             } catch (NullPointerException npe) {
                 JOptionPane.showMessageDialog(null, "You cannot open files in this explorer");
+            }
+        } else {
+            int sel = FileList.getSelectedIndex();
+            if (sel > -1) {
+                model.displayInf(sel, tainf);
             }
         }
     }//GEN-LAST:event_FileListMouseClicked
@@ -176,12 +204,15 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu ContextMenu;
     private javax.swing.JList<Data> FileList;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JMenuItem sortASC;
     private javax.swing.JMenuItem sortASC2;
     private javax.swing.JMenuItem sortDESC;
     private javax.swing.JMenuItem sortDESC2;
+    private javax.swing.JTextArea tainf;
     // End of variables declaration//GEN-END:variables
 }
