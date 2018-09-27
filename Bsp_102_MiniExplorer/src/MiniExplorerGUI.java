@@ -1,5 +1,9 @@
 
-import javax.swing.JOptionPane;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MiniExplorerGUI extends javax.swing.JFrame {
 
@@ -81,6 +85,11 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
                 FileListMouseClicked(evt);
             }
         });
+        FileList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                FileListValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(FileList);
 
         tainf.setColumns(20);
@@ -119,10 +128,10 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
 
     private void FileListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FileListMouseClicked
         if (evt.getClickCount() >= 2) {
-            try {
-                int sel = FileList.getSelectedIndex();
-                if (sel > -1) {
-                    Data d = model.getElementAt(sel);
+            int sel = FileList.getSelectedIndex();
+            if (sel > -1) {
+                Data d = model.getElementAt(sel);
+                if (d.isDirectory()) {
                     if (sel == 0) {
                         String[] helpStr = d.getAbsolutePath().replace("\\", ";").split(";");
                         String newPath = d.getAbsolutePath().replace(helpStr[helpStr.length - 1], "");
@@ -130,14 +139,14 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
                     } else {
                         model.openDir(d.getParent() + "\\" + d.getName() + "\\");
                     }
+                } else {
+                    File f = model.getElementAt(sel);
+                    try {
+                         Desktop.getDesktop().open(f);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                 }
-            } catch (NullPointerException npe) {
-                JOptionPane.showMessageDialog(null, "You cannot open files in this explorer");
-            }
-        } else {
-            int sel = FileList.getSelectedIndex();
-            if (sel > -1) {
-                model.displayInf(sel, tainf);
             }
         }
     }//GEN-LAST:event_FileListMouseClicked
@@ -165,6 +174,13 @@ public class MiniExplorerGUI extends javax.swing.JFrame {
         asc = false;
         model.advancedSorting();
     }//GEN-LAST:event_sortDESC2ActionPerformed
+
+    private void FileListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_FileListValueChanged
+        int sel = FileList.getSelectedIndex();
+        if (sel > -1) {
+            model.displayInf(sel, tainf);
+        }
+    }//GEN-LAST:event_FileListValueChanged
 
     /**
      * @param args the command line arguments
